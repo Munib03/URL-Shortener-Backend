@@ -1,5 +1,5 @@
 import prisma from "../utils/prisma.js";
-import bcrypt from "bcrypt";
+import hashIt from "../utils/hashTheString.js";
 
 
 async function registerUser(firstName, lastName, email, password) {
@@ -15,14 +15,13 @@ async function registerUser(firstName, lastName, email, password) {
     throw error;
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-
+  const hashedPassword = await hashIt(password);
   const user = await prisma.user.create({
     data: {
       firstName: firstName,
       lastName: lastName,
       email: email,
-      password: password
+      password: hashedPassword
     },
     omit: {
       password: true,
