@@ -1,5 +1,7 @@
 import prisma from "../utils/prisma.js";
 import hashIt from "../utils/hashTheString.js";
+import generateJWT from "../utils/generateJWT.js";
+import bcrypt from "bcrypt";
 
 
 async function registerUser(firstName, lastName, email, password) {
@@ -33,6 +35,37 @@ async function registerUser(firstName, lastName, email, password) {
 }
 
 
+async function loginUser(email, password) {
+  const user = await prisma.user.findUnique({
+    where: {
+      email: email
+    }
+  });
+
+  if (!user) {
+    const error = new Error(`Invalid Password or email!`);
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const payload = {
+    id: user.id,
+    email: user.email
+  };
+
+  const comparePassword = await bcrypt.compare(password, user.password);
+  if (!comparePassword) {
+    const error = new Error("Incorrect Password or email!");
+    error.statusCode = 400;
+    throw error
+  };
+
+  const token = generateJWT(payload);
+
+  return token;
+}
+
 export default {
-  registerUser
+  registerUser,
+  loginUser
 }

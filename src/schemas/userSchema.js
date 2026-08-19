@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 
-export const createUserSchema = z.object({
+export const signupPostRequestBodySchema = z.object({
   firstName: z 
       .string()
       .min(3, "Firstname must be atleast 3 character!")
@@ -19,4 +19,14 @@ export const createUserSchema = z.object({
   password: z 
       .string()
       .min(8, "Password must be atleast 8 character!")
+});
+
+
+export const loginPostRequestBodySchema = z.object({
+    email: z 
+        .string()
+        .email(),
+    password: z 
+        .string()
+        .min(8, "Password must be atleast 8 characters!")
 });
