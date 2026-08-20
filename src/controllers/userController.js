@@ -51,7 +51,7 @@ async function loginUser(req, res) {
   }
   catch(error) {
     console.log(error);
-    
+ 
     return res.status(error.statusCode || 500).json( {
       message: error.statusCode 
                ? error.message
@@ -61,8 +61,31 @@ async function loginUser(req, res) {
 }
 
 
+async function getMe(req, res) {
+  try {
+    const user = req.user;
+    if (!user) {
+      return res.status(400).json({
+        message: `Someting went wrong!`
+      });
+    }
+
+    return res.status(200).json({
+      user: user
+    });
+  }
+  catch(error) {
+    console.log(error);
+    
+    return res.status(500).json({
+      message: "Internel Server Error!"
+    });
+  }
+}
+
 
 export default {
   registerUser,
-  loginUser
+  loginUser,
+  getMe
 }

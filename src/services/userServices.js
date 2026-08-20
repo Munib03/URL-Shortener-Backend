@@ -50,7 +50,9 @@ async function loginUser(email, password) {
 
   const payload = {
     id: user.id,
-    email: user.email
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName
   };
 
   const comparePassword = await bcrypt.compare(password, user.password);
