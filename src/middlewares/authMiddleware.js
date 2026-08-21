@@ -33,9 +33,15 @@ async function authMiddleware(req, res, next) {
       });
     }
 
-    else if (error.name === 'TokenExpiredError') {
+    else if (error.name === "TokenExpiredError") {
       return res.status(400).json({
         message: "Expired Token!"
+      });
+    }
+
+    else if (error.name === "JsonWebTokenError") {
+      return res.status(400).json({
+        message: "Invalid Token!"
       });
     }
    
