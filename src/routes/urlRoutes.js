@@ -5,6 +5,9 @@ import authMiddleware, { ensureUserIsAuthenticated } from "../middlewares/authMi
 
 const router = express.Router();
 
+router.get("/all", authMiddleware, ensureUserIsAuthenticated, urlController.getAllURLs);
+router.get("/:shortCode", urlController.getUrlByShortCode);
 router.post("/shorten", authMiddleware, ensureUserIsAuthenticated, urlController.registerURL);
+
 
 export default router;

@@ -24,7 +24,7 @@ model user {
 model url {
   id String @id @default(uuid())
   targetURL String @db.VarChar(2048)
-  shortCode String 
+  shortCode String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime?
 

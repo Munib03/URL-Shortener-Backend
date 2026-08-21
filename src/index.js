@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 app.use("/users", userRouter);
-app.use("/", urlRouter);
+app.use("/urls", urlRouter);
 
 
 const PORT = process.env.PORT || 9090;
