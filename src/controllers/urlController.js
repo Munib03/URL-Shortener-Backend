@@ -120,9 +120,46 @@ async function deleteAUrl(req, res) {
 }
 
 
+async function updateAURL(req, res) {
+  try {
+    const urlId = req.params.id;
+    const userId = req.user.id;
+
+    if (!urlId) {
+      return res.status(400).json({
+        message: `Please prove the id of the url`
+      });
+    }
+
+    const inputValidation = await shortenPostRequestBodySchema.safeParseAsync(req.body);
+    if (inputValidation.error) {
+      return res.status(400).json({
+        error: inputValidation.error.format()
+      });
+    }
+
+    const { targetURL } = inputValidation.data;
+
+    const result = await urlServices.updateAURL(urlId, userId, targetURL);
+
+    return res.status(200).json({
+      message: `Url with id [${urlId}] is updated successfully!`
+    });
+  }
+  catch(error) {
+    console.log(error);
+
+    return res.status(500 || error.statusCode).json({
+      message: error.statusCode ? error.message : "Internel Server Error!"
+    });
+  }
+}
+
+
 export default {
   registerURL,
   getUrlByShortCode,
   getAllURLs,
-  deleteAUrl
+  deleteAUrl,
+  updateAURL
 }
