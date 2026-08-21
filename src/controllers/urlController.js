@@ -49,7 +49,6 @@ async function getUrlByShortCode(req, res) {
       });
     }
 
-    console.log(url.targetURL);
     return res.redirect(url.targetURL);
   }
   catch(error) {
