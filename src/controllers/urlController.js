@@ -85,8 +85,44 @@ async function getAllURLs(req, res) {
   }
 }
 
+
+async function deleteAUrl(req, res) {
+  try {
+    const userId = req.user.id;
+    const urlId = req.params.id;
+
+    if (!urlId) {
+      return res.status(400).json({
+        message: "Please provide the id of url you want to delete!"
+      });
+    }
+
+    const result = await urlServices.deleteAUrl(urlId, userId);
+    if (!result) {
+      return res.status(400).json({
+        message: "Internel Server Error!"
+      });
+    }
+
+    return res.status(200).json({
+      message: `URL with id [${urlId}] is deleted successfully!`
+    });
+  }
+  catch(error) {
+    console.log(error);
+    
+    return res.status(error.statusCode || 500).json( {
+      message: error.statusCode 
+               ? error.message
+               : "Internel Server Error!"
+    });
+  }
+}
+
+
 export default {
   registerURL,
   getUrlByShortCode,
-  getAllURLs
+  getAllURLs,
+  deleteAUrl
 }

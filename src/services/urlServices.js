@@ -50,8 +50,34 @@ async function getAllURLs(userId) {
 } 
 
 
+async function deleteAUrl(urlId, userId) {
+  const checkForExistanceOfURL = await prisma.url.findUnique({
+    where: {
+      id: urlId,
+      userId: userId
+    }
+  });
+
+  if (!checkForExistanceOfURL) {
+    const error = new Error(`Url with ID [${urlId}] does not exist!`);
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const result = await prisma.url.delete({
+    where: {
+      id: urlId,
+      userId: userId
+    }
+  });
+
+  return result;
+}
+
+
 export default {
   registerURL,
   getUrlByShortCode,
-  getAllURLs
+  getAllURLs,
+  deleteAUrl
 }

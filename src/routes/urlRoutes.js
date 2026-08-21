@@ -8,6 +8,7 @@ const router = express.Router();
 router.get("/all", authMiddleware, ensureUserIsAuthenticated, urlController.getAllURLs);
 router.get("/:shortCode", urlController.getUrlByShortCode);
 router.post("/shorten", authMiddleware, ensureUserIsAuthenticated, urlController.registerURL);
+router.delete("/:id", authMiddleware, ensureUserIsAuthenticated, urlController.deleteAUrl);
 
 
 export default router;
