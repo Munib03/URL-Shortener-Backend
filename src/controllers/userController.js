@@ -64,12 +64,6 @@ async function loginUser(req, res) {
 async function getMe(req, res) {
   try {
     const user = req.user;
-    if (!user) {
-      return res.status(400).json({
-        message: `Someting went wrong!`
-      });
-    }
-
     return res.status(200).json({
       user: user
     });

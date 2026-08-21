@@ -9,7 +9,8 @@ async function registerURL(targetURL, shortCode, userId) {
       userId: userId
     },
     omit: {
-      userId: true
+      userId: true,
+      updatedAt: true
     }
   });
 

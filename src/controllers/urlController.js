@@ -5,12 +5,6 @@ import { shortenPostRequestBodySchema } from "../schemas/urlSchema.js";
 async function registerURL(req, res) {
   try {
     const userId = req.user.id;
-    if (!userId) {
-      return res.status(400).json({
-        message: "Invalid Token or Someting went wrong!"
-      });
-    }
-
     const inputValidation = await shortenPostRequestBodySchema.safeParseAsync(req.body);
     if (inputValidation.error) {
       return res.status(400).json({
